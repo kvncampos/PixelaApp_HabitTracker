@@ -5,20 +5,28 @@ import json
 from pixela_class import PixelaProfile
 
 
+# Creates a Custom Token 10 Characters Long
 def custom_token():
+    """Creates a Custom Token 10 Characters Long"""
     letters = string.ascii_lowercase
     token = ''.join(random.choice(letters) for i in range(10))
     return token
 
 
+# Creates a Custom Graph ID Unique for User
 def custom_graph_id(username):
+    "Creates a Custom Graph ID Unique for User"
     letters = string.ascii_lowercase
     token = ''.join(random.choice(letters) for i in range(10))
     custom_id = token + '_' + username
     return custom_id
 
 
+# Store Credentials of User. This is not best practice as information is saved plain text.
 def store_creds(new_user: dict):
+    """Checks for file creds.py, if found appends new_user if new_user does not exist; otherwise skips.
+    if creds.py does not exist, it creates the file.
+    """
     # Initialize an empty list to store the JSON objects
     stored_data = []
 
@@ -44,12 +52,21 @@ def store_creds(new_user: dict):
         print(f"Username '{new_user['username']}' already exists in creds.py")
 
 
+# ------------------------- START OF CODE -------------------------
+
+options_token_question = ['custom', 'create', 'add', '']
+
+# Ask User if they require a Custom Token
 choice = input("Do you want a Custom Token or Create Your Own? ").casefold()
+while choice not in options_token_question:
+    choice = input("Do you want a Custom Token or Create Your Own? ").casefold()
+
+#
 if choice == 'custom':
     TOKEN = custom_token()
+elif choice in ['create', 'add']:
+    TOKEN = input("Type Your Custom or Known Token. [10 Character Min.]").casefold()
+    while len(TOKEN) < 10:
+        TOKEN = input("Please Use Minumum of 10 Characters. ").casefold()
 else:
-    TOKEN = choice
-
-joshsimpson = PixelaProfile('joshsimpson', token='rjqrbaxgsp')
-joshsimpson_data = vars(joshsimpson)
-store_creds(joshsimpson_data)
+    TOKEN = None
