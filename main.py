@@ -24,19 +24,19 @@ def custom_graph_id(username):
 
 # Store Credentials of User. This is not best practice as information is saved plain text.
 def store_creds(new_user: dict):
-    """Checks for file creds.py, if found appends new_user if new_user does not exist; otherwise skips.
-    if creds.py does not exist, it creates the file.
+    """Checks for file creds_test.py, if found appends new_user if new_user does not exist; otherwise skips.
+    if creds_test.py does not exist, it creates the file.
     """
     # Initialize an empty list to store the JSON objects
     stored_data = []
 
     try:
         # Attempt to read the existing data from the file
-        with open('creds.py', 'r') as creds_file:
+        with open('creds_test.py', 'r') as creds_file:
             stored_data = json.load(creds_file)
     except FileNotFoundError:
         # If the file doesn't exist yet, start with an empty list
-        print('FileNotFoundError: Will create creds.py')
+        print('FileNotFoundError: Will create creds_test.py')
 
     # Check if the new_user's username is already in the stored data
     username_exists = any(user['username'] == new_user['username'] for user in stored_data)
@@ -46,10 +46,10 @@ def store_creds(new_user: dict):
         stored_data.append(new_user)
 
         # Write the updated list of JSON objects back to the file
-        with open('creds.py', 'w') as creds_file:
+        with open('creds_test.py', 'w') as creds_file:
             json.dump(stored_data, creds_file, indent=4)
     else:
-        print(f"Username '{new_user['username']}' already exists in creds.py")
+        print(f"Username '{new_user['username']}' already exists in creds_test.py")
 
 
 # ------------------------- START OF CODE -------------------------
